@@ -1,0 +1,42 @@
+[
+  {
+    "recipeName": "ラーメン",
+    "genre": "中華"
+  },
+  {
+    "recipeName": "スパゲッティ・ボロネーゼ",
+    "genre": "洋食"
+  },
+  {
+    "recipeName": "寿司",
+    "genre": "和食"
+  },
+  {
+    "recipeName": "餃子",
+    "genre": "中華"
+  },
+  {
+    "recipeName": "ポテトサラダ",
+    "genre": "洋食"
+  },
+  {
+    "recipeName": "天ぷら",
+    "genre": "和食"
+  },
+  {
+    "recipeName": "北京ダック",
+    "genre": "中華"
+  },
+  {
+    "recipeName": "ハンバーガー",
+    "genre": "洋食"
+  },
+  {
+    "recipeName": "おでん",
+    "genre": "和食"
+  },
+  {
+    "recipeName": "麻婆豆腐",
+    "genre": "中華"
+  }
+]
