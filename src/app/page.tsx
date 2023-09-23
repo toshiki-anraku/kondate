@@ -18,8 +18,8 @@ export default function Home() {
 
     // データの処理
 
-    // レシピ画面に遷移
-    router.push("/recipe");
+    // レシピ画面に遷移 TODO: デモ用に遷移
+    router.push("/0");
 
     // レシピ画面への遷移とデータの渡し方
     // router.push({

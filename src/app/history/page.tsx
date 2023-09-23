@@ -34,9 +34,10 @@ export default function History() {
       <ul>
         {historyData.map((item, index) => (
           <li key={index}>
-            <Link href={`/recipe/${index}`} passHref legacyBehavior>
+            <Link href={`${index}`} passHref legacyBehavior>
               <a>
-                レシピ名: {item.recipeName}, ジャンル: {item.genre}
+                レシピ名: {item.response.recipeName}, ジャンル:{" "}
+                {item.request.genre}
               </a>
             </Link>
           </li>
