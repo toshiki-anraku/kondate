@@ -30,7 +30,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <p className="text-2xl font-bold mb-4">トップ</p>
+      <p className="text-2xl font-bold mb-4">献立の提案を依頼する</p>
       <div className="flex space-x-4 mb-4">
         {/* テキスト入力ボックス */}
         <input
@@ -56,7 +56,7 @@ export default function Home() {
           className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           onClick={handleDataSubmit}
         >
-          データ送信
+          提案依頼
         </button>
       </div>
       <Link href="/history" passHref legacyBehavior>
