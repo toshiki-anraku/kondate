@@ -24,7 +24,7 @@ export default function History() {
   }, []);
 
   return (
-    <div>
+    <div className="container mx-auto py-8">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold mb-4">履歴</h1>
         <Link href="/" passHref legacyBehavior>
@@ -33,9 +33,9 @@ export default function History() {
       </div>
       <ul>
         {historyData.map((item, index) => (
-          <li key={index}>
+          <li key={index} className="mb-4">
             <Link href={`${index}`} passHref legacyBehavior>
-              <a>
+              <a className="block p-4 border border-gray-300 rounded hover:bg-gray-100">
                 レシピ名: {item.response.recipeName}, ジャンル:{" "}
                 {item.request.genre}
               </a>
