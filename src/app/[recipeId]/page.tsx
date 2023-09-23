@@ -70,7 +70,7 @@ export default function Recipe() {
         className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4"
         onClick={handleResuggest}
       >
-        再提案
+        同じ食材・ジャンルで別のレシピを提案
       </button>
       {/* 履歴を見るリンク */}
       <Link href="/history" passHref legacyBehavior>
