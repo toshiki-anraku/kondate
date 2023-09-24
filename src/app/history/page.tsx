@@ -1,27 +1,8 @@
-"use client";
-import { useEffect, useState } from "react";
 import Link from "next/link";
-export default function History() {
-  const [historyData, setHistoryData] = useState([]);
+import { getLocalData } from "@/utils/localdata";
 
-  useEffect(() => {
-    // JSONファイルを読み込む関数を定義
-    const fetchHistoryData = async () => {
-      try {
-        const response = await fetch("/json/history.json"); // JSONファイルのパス
-        if (!response.ok) {
-          throw new Error("JSONファイルの読み込みに失敗しました。");
-        }
-        const data = await response.json();
-        setHistoryData(data);
-      } catch (error) {
-        console.error("エラー:", error);
-      }
-    };
-
-    // JSONデータを読み込む関数を呼び出す
-    fetchHistoryData();
-  }, []);
+export default async function History() {
+  const historyData = await getLocalData();
 
   return (
     <div className="container mx-auto py-8">
