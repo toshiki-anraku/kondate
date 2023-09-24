@@ -1,80 +1,62 @@
-import Configuration from "openai";
-import OpenAIApi from "openai";
 import OpenAI from "openai";
-import * as dotenv from "dotenv";
-import path from "path";
 import { addLocalData } from "./localdata";
 import { redirect } from "next/navigation";
 
 export async function requestChatGPT(requestData) {
   // プロンプトを生成
-  const requestText = await generatePrompt(requestData);
+  const requestPrompt = await generatePrompt(requestData);
   // ChatGPTのAPIを実行
-  // const recipe = await fetchRecipeData(requestText);
-  const recipe = {
-    request: {
-      ingredients: ["鶏もも肉", "醤油", "砂糖"],
-      genre: "和食",
-    },
-    response: {
-      recipeName: "鶏の照り焼き",
-      description: "鶏の照り焼きは、簡単に作れる和食の代表的な料理です。",
-      ingredients: ["鶏もも肉 2枚", "醤油 大さじ3", "砂糖 大さじ2"],
-      instructions: [
-        "1. 鶏もも肉を焼きます。中火で約5分間、両面がきつね色になるまで焼きます。",
-        "2. 醤油と砂糖を混ぜてタレを作ります。",
-        "3. 鶏肉にタレを塗り、弱火で約10分間煮ます。タレがとろみがつくまで煮ます。",
-        "4. 照り焼きが完成しました。",
-      ],
-      tips: "鶏肉はしっかり焼き、タレをからめると美味しさが引き立ちます。",
-    },
-  };
+  const recipe = await fetchRecipeData(requestPrompt);
   // 取得したレシピをJsonへ追加し、history.json内でのindexを取得
-  const localData = await addLocalData(recipe);
-
+  const localData = await addLocalData(JSON.parse(recipe));
   // レシピ画面へ遷移
   redirect(`/${localData.length - 1}`);
 }
 
 // ChatGPTへのプロンプトを生成
 const generatePrompt = (requestData) => {
+  console.log(requestData);
   const prompt = `
-      # 命令
-      あなたはプロの料理人です。料理の知識量は最高で全世界の料理を知り尽くします。
-      食材とジャンルの"情報"を提供するので、おすすめのレシピを伝授して欲しいです。
-      以下の制約条件を厳密に守ってロールプレイを行ってください。
+      # 作成項目
+      "情報"の内容を元におすすめのレシピを作成します。以下の項目について具体的な数字、名称、文章を作成して下さい。
+      分量、焼き加減（例：中火で5分）が分かりやすいように教えて下さい。クックパッドのような情報が欲しいです。
 
-      ## 制約条件
-      - JSON形式で出力すること
-      - JSON以外は一切不要
+      ## 情報
+      出力形式のrequestに格納して下さい。
+      "request": ${requestData},
 
-      # 条件
-      - 作り方を教える際は、分量、焼き加減（例：中火で5分）を明確に教えて下さい。
-      - クックパッドのような情報が欲しいです。
-      - 以下返却時のjsonのフォーマット例です。
-      ---
-        {
-          "request": {
-            "ingredients": ["鶏もも肉", "醤油", "砂糖"],
-            "genre": "和食"
-          },
-          "response": {
-            "recipeName": "鶏の照り焼き",
-            "description": "鶏の照り焼きは、簡単に作れる和食の代表的な料理です。",
-            "ingredients": ["鶏もも肉 2枚", "醤油 大さじ3", "砂糖 大さじ2"],
-            "instructions": [
-              "1. 鶏もも肉を焼きます。中火で約5分間、両面がきつね色になるまで焼きます。",
-              "2. 醤油と砂糖を混ぜてタレを作ります。",
-              "3. 鶏肉にタレを塗り、弱火で約10分間煮ます。タレがとろみがつくまで煮ます。",
-              "4. 照り焼きが完成しました。"
-            ],
-            "tips": "鶏肉はしっかり焼き、タレをからめると美味しさが引き立ちます。"
-          }
+      ## レシピ
+      - レシピ名
+          - レシピがイメージし易い名称
+      - レシピの説明
+          - レシピの簡単な説明文
+      - 食材
+          - 使用する食材の "食材名称 分量" を配列に格納
+      - 作り方（調理手順）
+          - 調理手順を火加減（弱火、中火、強火）、加熱時間（◯分）
+      - レシピの助言（tipe）
+          - ワンポイントアドバイスや、隠し味に関する記述
+
+      # 出力形式
+      データは次の形式のJSON文字列で返して下さい。
+      {
+        "request": {
+          "ingredients": ["食材1", "食材2", "食材3"],
+          "genre": "料理のジャンル"
         },
-      ---
-
-      # 情報
-          "request": ${requestData},
+        "response": {
+          "recipeName": "レシピ名",
+          "description": "レシピの説明",
+          "ingredients": ["食材1 分量", "食材2 分量", "食材3 分量"],
+          "instructions": [
+            "1. 調理手順1",
+            "2. 調理手順2",
+            "3. 調理手順3",
+            "4. 調理手順3"
+          ],
+          "tips": "レシピの助言（tips）"
+        }
+      },
 
       # 出力
     `;
@@ -82,36 +64,27 @@ const generatePrompt = (requestData) => {
   return prompt;
 };
 
-// ChatGPT APIの実装 //TODO: APIを完成させればプロトタイプとしては完成
-const fetchRecipeData = async (text) => {
-  const NEXT_PUBLIC_OPENAI_API_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-
-  // const configuration = new Configuration({
-  //   apiKey: NEXT_PUBLIC_OPENAI_API_KEY,
-  // });
-  // const openai = new OpenAIApi(configuration);
-
+// ChatGPT APIの実装
+const fetchRecipeData = async (prompt) => {
   const openai = new OpenAI({
-    apiKey: NEXT_PUBLIC_OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true,
+    apiKey: process.env.OPENAI_API_KEY,
   });
 
   const errorMessage = "エラーが発生したためもう一度やり直してください";
+
   try {
-    const response = await openai.createChatCompletion({
+    const chatCompletion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "user",
-          content: text,
-        },
-      ],
+      messages: [{ role: "user", content: prompt }],
     });
-    const answer = response.data.choices[0].message?.content; //④返答（レスポンス）の取得
+
+    const answer = chatCompletion.choices[0].message.content;
     console.log(answer);
+
     return answer ?? errorMessage;
   } catch (error) {
     console.log(error);
   }
+
   return errorMessage;
 };
