@@ -29,11 +29,11 @@ export default async function Recipe(req) {
           ))}
         </ul>
         <h3 className="text-lg font-semibold mb-2">作り方</h3>
-        <ol className="list-decimal list-inside mb-2">
+        <ul className="list-none list-inside mb-2">
           {recipeData.response.instructions.map((step, index) => (
             <li key={index}>{step}</li>
           ))}
-        </ol>
+        </ul>
         <p className="text-gray-600 mb-2">{recipeData.response.tips}</p>
       </div>
       {/* 再提案ボタン */}
