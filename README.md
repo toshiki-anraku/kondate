@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 概要
 
-## Getting Started
+【WIP 入力通りに提案してくれません。笑】
+Next.js と OpenAI の API を利用した献立提案システム
 
-First, run the development server:
+# 事前準備
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. リポジトリのクローン
+2. ライブラリのインストール
+   1. `npm i`
+3. DB 用の json ファイルを作成
+   1. プロジェクト（kondate）直下で以下のコマンドを実行
+   2. `cp src/json/example_data.json src/json/data.json`
+4. .env ファイルを作成
+   1. プロジェクト（kondate）直下で以下のコマンドを実行
+   2. `touch .env.local`
+5. .env ファイルに OpenAI の"API keys"を記述
+   1. "API keys"を発行していない場合は発行（[OpenAI API keys](https://platform.openai.com/account/api-keys)）
+      1. **注意** : OpenAI の API は有料です。高額請求が発生した場合も責任は負えません。自己責任でご利用下さい。
+   2. `OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxx`
+6. サーバー起動
+   1. プロジェクト（kondate）直下で以下のコマンドを実行
+   2. `npm run dev`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# 使い方
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. 食材の入力、ジャンルの選択をして"提案依頼"ボタンをクリック
+   ![トップ](./public/img/top.png)
+2. 入力内容からおすすめのレシピを生成して提案してくれます
+   ![レシピ](./public/img/recipe.png)
